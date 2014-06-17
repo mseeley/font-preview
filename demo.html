@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>font-preview</title>
+  <!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
+  <style type="text/css">
+  li span {
+    margin: 0 5px
+  }
+  div:before {
+    content:"\007a";
+  }
+  </style>
+</head>
+
+<body>
+<script src="lib/UnicodeRange.js"></script>
+<script src="lib/UnicodeRanges.js"></script>
+<script>
+var unicodeRanges = new UnicodeRanges(),
+    ranges = unicodeRanges.find(function (range) {
+        return /Latin/.test(range.name);
+        // return /Private Use Area/.test(range.name);
+    }),
+    displayRange = function (range) {
+        var frag = document.createDocumentFragment(),
+            h = title.cloneNode(false),
+            l = list.cloneNode(false);
+
+        h.textContent = range.name;
+
+        range.forEach(function (hex) {
+            var el = listItem.cloneNode(true);
+
+            el.children[0].innerHTML = '&#x' + hex;
+            el.children[1].textContent = '&#x' + hex;
+            el.children[2].textContent = 'content: "\\' + hex + '"';
+
+            l.appendChild(el);
+        });
+
+        frag.appendChild(h);
+        frag.appendChild(l);
+
+        document.body.appendChild(frag);
+    },
+    title = document.createElement('h2'),
+    list = document.createElement('ol'),
+    listItem = document.createElement('li');
+
+listItem.appendChild(document.createElement('span'));
+listItem.appendChild(document.createElement('span'));
+listItem.appendChild(document.createElement('span'));
+
+ranges.forEach(displayRange);
+
+</script>
+</body>
+</html>
